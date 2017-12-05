@@ -1,0 +1,7 @@
+{
+  "name": "grupo5",
+  "private": true,
+  "dependencies": {
+    "serialport": "^6.0.4"
+  }
+}

@@ -1,0 +1,3 @@
+Instrucciones de uso:
+
+Pegar la carpeta DHT en la carpetas /libraries y reiniciar wiring antes de correr el programa.

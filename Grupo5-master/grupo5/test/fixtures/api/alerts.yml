@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fecha: 
+  tipo: 
+  mensaje: 
+
+two:
+  fecha: 
+  tipo: 
+  mensaje: 
