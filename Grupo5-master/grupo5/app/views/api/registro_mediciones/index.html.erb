@@ -1,0 +1,75 @@
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <%= link_to api_registro_mediciones_path, class: "nav-link active" do %>
+                General
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to api_registro_mediciones_area_path, class: "nav-link" do %>
+                Reporte por area
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to api_registro_mediciones_nivel_path, class: "nav-link" do %>
+                Reporte por nivel
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to api_registro_mediciones_variable_path, class: "nav-link" do %>
+                Reporte por variable
+              <% end %>
+            </li>
+          </ul>
+        </nav>
+
+        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+          <h1>Dashboard</h1>
+          <section class="row text-center placeholders">
+            <% Api::VariableAmbiental.all.each do |variable| %>
+              <div class="col-6 col-sm-3 placeholder">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+                <h4><%= variable.tipo %></h4>
+                <div class="text-muted">Valor Maximo: <%= variable.valorMaximo %></div>
+                <div class="text-muted">Valor Minimo: <%= variable.valorMinimo %></div>
+                <div class="text-muted">Unidad: <%= variable.unidad %></div>
+                <div class="text-muted">Variación diaria: <%= variable.variacionDiaria %></div>
+                <div class="text-muted">Precision: <%= variable.precision %></div>
+                <div class="text-muted">Frecuencia: <%= variable.frecuencia %></div>
+              </div>
+            <% end %>
+          </section>
+
+          <h2>Reporte Medicines General</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Valor</th>
+                  <th>Variable</th>
+                  <th>Area</th>
+                  <th>Nivel</th>
+                  <th>Fecha Medición</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @registros.each do |registro| %>
+                  <tr>
+                    <td><%= registro.id %></td>
+                    <td><%= registro.valor %></td>
+                    <td><%= registro.variable_ambiental.tipo %></td>
+                    <td><%= registro.microcontrolador.area%></td>
+                    <td><%= registro.microcontrolador.nivel %></td>
+                    <td><%= registro.created_at %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <%= will_paginate @registros %>
+        </main>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <%= link_to api_registro_mediciones_path, class: "nav-link" do %>
+            General
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to api_registro_mediciones_area_path, class: "nav-link" do %>
+            Reporte por area
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to api_registro_mediciones_nivel_path, class: "nav-link active" do %>
+            Reporte por nivel
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to api_registro_mediciones_variable_path, class: "nav-link" do %>
+            Reporte por variable
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+
+    <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <h2>Reporte Medicines Por Nivel</h2>
+
+      <% Api::Microcontrolador.all.distinct(:nivel).each do |nivel| %>
+      <div class="card text-center">
+        <div class="card-header">
+          <h5>Mediciones en el nivel <%= nivel%></h5>
+        </div>
+        <div class="card-body">
+          <div class="area-group">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Valor</th>
+                    <th>Variable</th>
+                    <th>Area</th>
+                    <th>Nivel</th>
+                    <th>Fecha Medición</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% Api::RegistroMedicion.where(:microcontrolador_id.in => Api::Microcontrolador.where(nivel: nivel).pluck(:id)).order("created_at DESC").paginate(page: params[:page], per_page: 5).each do |registro|	%>
+                  <tr>
+                    <td><%= registro.id %></td>
+                    <td><%= registro.valor %></td>
+                    <td><%= registro.variable_ambiental.tipo %></td>
+                    <td><%= registro.microcontrolador.area%></td>
+                    <td><%= registro.microcontrolador.nivel %></td>
+                    <td><%= registro.created_at %></td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <%= link_to api_registro_mediciones_nivel_more_path(nivel), class: "btn btn-dark float-right" do %>
+                Ver más
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </main>
+  </div>
+</div>

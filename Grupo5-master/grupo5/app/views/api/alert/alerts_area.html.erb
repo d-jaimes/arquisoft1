@@ -1,0 +1,107 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <%= link_to api_microcontrolador_index_path, class: "nav-link active" do %>
+            Areas
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to api_alert_index_path, class: "nav-link" do %>
+            Todas las alertas
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+    <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <h2>Alertas en area <%= params[:area]%></h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tipo</th>
+              <th>Area</th>
+              <th>Nivel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @alerts.count <= 0 %>
+              <h4>El area no tiene alertas todavia</h4>
+              <br>
+            <% else %>
+              <% @alerts.each do |alerta| %>
+                <tr>
+                  <td><%= alerta.id %></td>
+                  <td><%= alerta.get_variable_type_as_string %></td>
+                  <td><%= alerta.microcontrolador.area %></td>
+                  <td><%= alerta.microcontrolador.nivel %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <h3>Mediciones del dia</h3>
+      <br>
+      <% Api::VariableAmbiental.all.each do |variable| %>
+      <h6><%= variable.tipo %></h6>
+        <div id="<%= variable.tipo %>" style="height: 250px;"></div>
+      <% end %>
+    </main>
+  </div>
+</div>
+<script>
+  <% Api::VariableAmbiental.all.each do |variable| %>
+  graphData = []
+
+  if("<%= variable.tipo %>" === "Temperatura" ) {
+    for(var i = 0; i < gon.alerts_area_temp.length; i+=1) {
+      graphData.push({
+        year: gon.alerts_area_temp[i]["created_at"],
+        value: gon.alerts_area_temp[i]["valor"]
+      })
+    }
+  } else if("<%= variable.tipo %>" === "Sonido") {
+    for(var i = 0; i < gon.alerts_area_son.length; i+=1) {
+      graphData.push({
+        year: gon.alerts_area_son[i]["created_at"],
+        value: gon.alerts_area_son[i]["valor"]
+      })
+    }
+  } else if ("<%= variable.tipo %>" === "Monoxido") {
+    for(var i = 0; i < gon.alerts_area_mono.length; i+=1) {
+      graphData.push({
+        year: gon.alerts_area_mono[i]["created_at"],
+        value: gon.alerts_area_mono[i]["valor"]
+      })
+    }
+  } else if ("<%= variable.tipo %>" === "Luz") {
+    for(var i = 0; i < gon.alerts_area_lux.length; i+=1) {
+      graphData.push({
+        year: gon.alerts_area_lux[i]["created_at"],
+        value: gon.alerts_area_lux[i]["valor"]
+      })
+    }
+  }
+
+  console.log(graphData)
+
+   new Morris.Line({
+   // ID of the element in which to draw the chart.
+   element: "<%= variable.tipo %>",
+   // Chart data records -- each entry in this array corresponds to a point on
+   // the chart.
+   data: graphData,
+   // The name of the data record attribute that contains x-values.
+   xkey: 'year',
+   // A list of names of data record attributes that contain y-values.
+   ykeys: ['value'],
+   // Labels for the ykeys -- will be displayed when you hover over the
+   // chart.
+   labels: ['Value']
+   });
+  <% end %>
+</script>

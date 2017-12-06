@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grupo5</title>
+    <%= include_gon %>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+          <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">Dashboard Grupo 5</a>
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item <%= 'active' if current_page?(api_registro_mediciones_path) %>">
+                  <%= link_to api_registro_mediciones_path, class: "nav-link" do %>
+                    Home
+                  <% end %>
+                </li>
+                <li class="nav-item <%= 'active' if current_page?(api_microcontrolador_index_path) %>">
+                  <%= link_to api_microcontrolador_index_path, class: "nav-link" do %>
+                    Areas
+                  <% end %>
+                </li>
+              </ul>
+              <form class="form-inline mt-2 mt-md-0">
+                <% if user_signed_in? %>
+                  <%= link_to home_logout_path, class: "btn btn-outline-success my-2 my-sm-0" do %>
+                    Log Out
+                  <% end %>
+                <% else %>
+                  <%= link_to home_login_path, class: "btn btn-outline-success my-2 my-sm-0" do %>
+                    Log In
+                  <% end %>
+                <% end %>
+              </form>
+            </div>
+          </nav>
+        </header>
+
+    <%= yield %>
+  </body>
+</html>

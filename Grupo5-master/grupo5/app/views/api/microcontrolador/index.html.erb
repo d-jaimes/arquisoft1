@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <%= link_to api_microcontrolador_index_path, class: "nav-link active" do %>
+            Areas
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to api_alert_index_path, class: "nav-link" do %>
+            Todas las alertas
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+    <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <h2>Todas las areas cubiertas</h2>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Area</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% Api::Microcontrolador.all.distinct(:area).each do |area| %>
+              <tr>
+                <td class="col-md-8">Area <%= area %></td>
+                <td>
+                  <%= link_to api_alerts_area_path(area), class: "btn btn-danger" do %>
+                    Ver alertas
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to api_actuadores_area_path(area), class: "btn btn-dark" do %>
+                    Ver actuadores
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to api_registro_mediciones_area_more_path(area), class: "btn btn-dark" do %>
+                    Ver registros
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <%= link_to api_microcontrolador_index_path, class: "nav-link active" do %>
+            Areas
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to api_alert_index_path, class: "nav-link" do %>
+            Todas las alertas
+          <% end %>
+        </li>
+      </ul>
+    </nav>
+    <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <div class="container-fluid">
+        <div class="row">
+          <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+            <ul class="nav nav-pills flex-column">
+              <li class="nav-item">
+                <%= link_to api_microcontrolador_index_path, class: "nav-link active" do %>
+                  Areas
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to api_alert_index_path, class: "nav-link" do %>
+                  Todas las alertas
+                <% end %>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      <h1>Actuadores en el area <%= params[:area] %></h1>
+      <div class="row">
+        <% if @actuadores.count <= 0 %>
+          <h4>El area <%= params[:area] %> no tiene actuadores </h4>
+        <% else %>
+          <% @actuadores.each do |actuador| %>
+          <div class="col-sm-3">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title"><%= actuador.id %></h4>
+                <p class="card-text">Area: <%= actuador.microcontrolador.area %></p>
+                <p class="card-text">Nivel: <%= actuador.microcontrolador.nivel %></p>
+                <p class="card-text">Tipo: <%= actuador.variable_ambiental.tipo %></p>
+                <% if actuador.estado %>
+                  <div href="#" class="btn btn-success">Encendido</div>
+                <% else %>
+                  <div href="#" class="btn btn-secondary">Apagado</div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% end %>
+        <% end %>
+      </div>
+      </div>
+    </main>
+  </div>
+</div>
