@@ -1,8 +1,8 @@
 class Api::RegistroMedicionesController < ApplicationController
-  #before_action :authenticate_user!
-  #before_action do |c|
-  #  authorize_user!([Constants::SUPERVISOR, Constants::SERVICE , Constants::SYSO ])
-  #end
+  before_action :authenticate_user!
+  before_action do |c|
+    authorize_user!([Constants::SUPERVISOR, Constants::SERVICE , Constants::SYSO ])
+  end
 
   before_action :set_registro_medicion, only: [:show, :destroy]
 
@@ -10,7 +10,7 @@ class Api::RegistroMedicionesController < ApplicationController
   # GET /api/registro_mediciones
   # GET /api/registro_mediciones.json
   def index
-    #render json: Api::RegistroMedicion.all, status: :ok
+    render json: Api::RegistroMedicion.all, status: :ok
   end
 
   # GET /api/registro_mediciones/1

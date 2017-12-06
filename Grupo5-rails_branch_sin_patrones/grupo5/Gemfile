@@ -56,5 +56,3 @@ gem 'omniauth'
 gem 'omniauth-auth0'
 gem 'dotenv-rails', require: 'dotenv/rails-now', group: [:development, :test]
 gem 'jwt'
-gem 'bootstrap', '~> 4.0.0.beta2.1'
-gem 'jquery-rails'
